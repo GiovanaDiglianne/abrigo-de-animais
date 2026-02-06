@@ -1,0 +1,10 @@
+com\mycompany\sistemaabrigoanimais\Adocao.class
+com\mycompany\sistemaabrigoanimais\Consulta.class
+com\mycompany\sistemaabrigoanimais\Resgate.class
+com\mycompany\sistemaabrigoanimais\EntidadeBase.class
+com\mycompany\sistemaabrigoanimais\Funcionario.class
+com\mycompany\sistemaabrigoanimais\Animal.class
+com\mycompany\sistemaabrigoanimais\Secretaria.class
+com\mycompany\sistemaabrigoanimais\Veterinario.class
+com\mycompany\sistemaabrigoanimais\IFuncionario.class
+com\mycompany\sistemaabrigoanimais\Main.class
