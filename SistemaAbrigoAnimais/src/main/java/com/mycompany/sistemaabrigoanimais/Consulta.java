@@ -12,14 +12,16 @@ public class Consulta extends EntidadeBase {
     private String dataConsulta;
     private Animal animal;
     private Veterinario veterinario;
+    private Secretaria secretaria;
     
     public Consulta(){
         
     }
     
-    public Consulta(Animal animal, Veterinario veterinario, String dataConsulta){
+    public Consulta(Animal animal, Veterinario veterinario, Secretaria secretaria, String dataConsulta){
         this.animal = animal;
         this.veterinario = veterinario;
+        this.secretaria = secretaria;
         this.dataConsulta = dataConsulta;
     }
     
@@ -39,6 +41,14 @@ public class Consulta extends EntidadeBase {
         this.veterinario = veterinario;
     }
     
+    public Secretaria getSecretaria(){
+        return secretaria;
+    }
+    
+    public void setSecretaria(Secretaria secretaria){
+        this.secretaria = secretaria;
+    }
+        
     public String getDataConsulta(){
         return dataConsulta;
     }

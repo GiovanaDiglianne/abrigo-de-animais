@@ -116,7 +116,7 @@ public class Menu {
     
     private void lerNome(Funcionario funcionario){
         while(true) {
-            System.out.print("Digite o nome: ");
+            System.out.print("Digite o nome do funcionário: ");
             String nome = teclado.nextLine();
             try {
                 funcionario.setNome(nome);
@@ -129,7 +129,7 @@ public class Menu {
     
     private void lerNome(Animal animal){
         while(true) {
-            System.out.print("Digite o nome: ");
+            System.out.print("Digite o nome do animal: ");
             String nome = teclado.nextLine();
             try {
                 animal.setNome(nome);
@@ -152,7 +152,7 @@ public class Menu {
         }
     }
     
-    private void cadastrarConsulta(){
+    private void agendarConsulta(){
         Consulta c = new Consulta();
         teclado.nextLine();
         
@@ -168,7 +168,7 @@ public class Menu {
         c.setAnimal((Animal) animais.get(idx));
         
         teclado.nextLine();
-        idx = getInt("Selecione a Secretaria: ");
+        idx = getInt("Selecione o índice da Secretaria: ");
         c.setSecretaria((Secretaria) funcionarios.get(idx));
         consultas.add(c);
     }
