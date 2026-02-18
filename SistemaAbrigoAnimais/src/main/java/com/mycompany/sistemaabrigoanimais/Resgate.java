@@ -36,4 +36,9 @@ public class Resgate extends EntidadeBase {
     public void setAnimal (Animal animal){
      this.animal = animal;   
     }
+    
+    @Override
+    public String toString() {
+        return "Data de resgate: " + dataResgate + ", animal: " + animal.getNome();
+    }
 }

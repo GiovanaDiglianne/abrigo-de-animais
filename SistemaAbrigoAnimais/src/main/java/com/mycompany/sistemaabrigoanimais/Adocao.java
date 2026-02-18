@@ -45,4 +45,9 @@ public class Adocao extends EntidadeBase {
     public void setAnimal (Animal animal){
      this.animal = animal;   
     }
+    
+    @Override
+    public String toString() {
+        return "Nome do adotante: " + adotante + ", data de adoção: " + dataAdocao + ", animal adotado: " + animal.getNome();
+    }
 }

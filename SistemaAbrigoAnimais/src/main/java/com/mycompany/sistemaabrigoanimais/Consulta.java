@@ -59,7 +59,9 @@ public class Consulta extends EntidadeBase {
 
     @Override
     public String toString(){
-        return "Médico Veterinário: " + veterinario.getNome() + ", animal:" + animal.getNome() + ", data: " + getDataConsulta();
+        return "Médico Veterinário: " + veterinario.getNome() + ", animal:" + animal.getNome() + ", secretaria: " 
+                + (secretaria != null ? secretaria.getNome() : "Não realizou o agendamento") + ", data da consulta: " 
+                + getDataConsulta();
     }
     
     public void imprimir(){

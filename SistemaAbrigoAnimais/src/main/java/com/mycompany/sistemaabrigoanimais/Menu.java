@@ -67,13 +67,10 @@ public class Menu {
                 break;
             case 4:
                 System.out.println("Resgistrando Adoção");
-                listarAnimais();
                 registrarAdocao();
                 break;
             case 5:
                 System.out.println("Agendando Consulta");
-                listarAnimais();
-                listarFuncionarios();
                 agendarConsulta();
                 break;
             case 6:
@@ -98,6 +95,10 @@ public class Menu {
     }
     
     private void listarConsultas(){
+        System.out.println("\n--- Consultas agendadas ---");
+        if(consultas.isEmpty()){
+            System.out.println("Nenhuma consulta encontrada.");
+        }
         for (int i = 0; i < consultas.size(); i++) {
             Consulta c = consultas.get(i);
             System.out.println(i + " " + c.toString());            
@@ -106,19 +107,36 @@ public class Menu {
     
     private void listarAnimais(){
         for (int i = 0; i < animais.size(); i++) {
-            Animal a = animais.get(i);
-            System.out.println(i + " " + a.toString());            
+           Animal a = animais.get(i);
+            if (!animais.get(i).getStatus().equalsIgnoreCase("Adotado")){
+                System.out.println(i + " " + a.toString()); 
+            }         
         }
     }
     
-    private void listarFuncionarios(){
+    private void listarVeterinarios(){
         for (int i = 0; i < funcionarios.size(); i++) {
             Funcionario f = funcionarios.get(i);
-            System.out.println(i + " " + f.toString());            
-        }
+            if (funcionarios.get(i) instanceof Veterinario){
+                System.out.println(i + " " + f.toString()); 
+            }           
+        } 
+    }
+    
+    private void listarSecretarias(){
+        for (int i = 0; i < funcionarios.size(); i++) {
+            Funcionario f = funcionarios.get(i);
+            if (funcionarios.get(i) instanceof Secretaria){
+                System.out.println(i + " " + f.toString()); 
+            }           
+        } 
     }
     
     private void listarResgates(){
+        System.out.println("\n--- Resgates realizados ---");
+        if(resgates.isEmpty()){
+            System.out.println("Nenhum resgate encontrada.");
+        }
         for (int i = 0; i < resgates.size(); i++) {
             Resgate r = resgates.get(i);
             System.out.println(i + " " + r.toString());            
@@ -126,6 +144,10 @@ public class Menu {
     }
     
     private void listarAdocoes(){
+        System.out.println("\n--- Adoções realizados ---");
+        if(adocoes.isEmpty()){
+            System.out.println("Nenhuma adoção encontrada.");
+        }
         for (int i = 0; i < adocoes.size(); i++) {
             Adocao a = adocoes.get(i);
             System.out.println(i + " " + a.toString());            
@@ -184,22 +206,45 @@ public class Menu {
     
     private void agendarConsulta(){
         Consulta c = new Consulta();
-        teclado.nextLine();
+        teclado.nextLine(); 
+        
+        boolean temMedico = false;
+        boolean temSecretaria = false;
+        for (Funcionario f : funcionarios) {
+            if (f instanceof Veterinario) {
+                temMedico = true;
+                break;
+            }
+            if (f instanceof Secretaria) {
+                temSecretaria = true;
+                break;
+            }
+        }
+
+        if (!temMedico) {
+            System.out.println("Não há médico para realizar a consulta");
+            return;
+        }
         
         System.out.print("Digite a data da consulta: ");
-        String data = teclado.nextLine();
-        c.setDataConsulta(data);
+        c.setDataConsulta(teclado.nextLine());
         
+        listarVeterinarios();
         int idx = getInt("Selecione o Médico: ");
         c.setVeterinario((Veterinario) funcionarios.get(idx));
-        
         teclado.nextLine();
+        
+        listarAnimais();
         idx = getInt("Selecione o Paciente: ");
-        c.setAnimal((Animal) animais.get(idx));
-        
+        c.setAnimal(animais.get(idx));
         teclado.nextLine();
-        idx = getInt("Selecione o índice da Secretaria: ");
-        c.setSecretaria((Secretaria) funcionarios.get(idx));
+        
+        if(temSecretaria){
+            listarSecretarias();
+            idx = getInt("Selecione o índice da Secretaria: ");
+            c.setSecretaria((Secretaria) funcionarios.get(idx));
+            teclado.nextLine();
+        }
         consultas.add(c);
         System.out.println("Agendamento realizado com sucesso!");
     }
@@ -287,6 +332,18 @@ public class Menu {
     }
     
     private void registrarAdocao(){
+        boolean animalDisponivel = false;
+        for (Animal a : animais) {
+            if (!a.getStatus().equalsIgnoreCase("Adotado")) {
+               animalDisponivel = true;
+                break;
+            }
+        }
+        if (!animalDisponivel) {
+            System.out.println("Nenhum animal para adoção encontrado");
+            return; 
+        }
+        
         listarAnimais(); 
         int idx = getInt("Selecione o índice do animal que será adotado: ");
         Animal animal = animais.get(idx);
