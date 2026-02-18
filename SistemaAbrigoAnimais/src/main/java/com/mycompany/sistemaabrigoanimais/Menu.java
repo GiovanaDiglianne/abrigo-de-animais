@@ -213,14 +213,16 @@ public class Menu {
         for (Funcionario f : funcionarios) {
             if (f instanceof Veterinario) {
                 temMedico = true;
-                break;
             }
             if (f instanceof Secretaria) {
                 temSecretaria = true;
-                break;
             }
         }
-
+        
+        if (animais.isEmpty()) {
+            System.out.println("Não há pacientes para a consulta.");
+            return;
+        }
         if (!temMedico) {
             System.out.println("Não há médico para realizar a consulta");
             return;
