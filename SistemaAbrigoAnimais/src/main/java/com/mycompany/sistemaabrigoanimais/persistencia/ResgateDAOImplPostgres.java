@@ -20,12 +20,10 @@ public class ResgateDAOImplPostgres implements IResgateDAO {
     @Override
     public void inserir(Resgate r) {
         banco.conectar();
-        String sql = "INSERT INTO resgate (data_resgate, local_resgate, id_animal) VALUES (";
+        String sql = "INSERT INTO resgate (data_resgate, id_animal) VALUES (";
         sql += "'" + r.getDataResgate() + "', ";
-        //sql += "'" + r.getLocalResgate() + "', ";
         sql += r.getAnimal().getId();
         sql += ");";
-        
         banco.executarSQL(sql);
         banco.fechar();
     }
@@ -42,7 +40,6 @@ public class ResgateDAOImplPostgres implements IResgateDAO {
                 Resgate r = new Resgate();
                 r.setId(rs.getInt("id"));
                 r.setDataResgate(rs.getString("data_resgate"));
-                r.setLocalResgate(rs.getString("local_resgate"));
                
                 Animal a = new Animal();
                 a.setId(rs.getInt("id_animal"));
@@ -61,13 +58,10 @@ public class ResgateDAOImplPostgres implements IResgateDAO {
     public void atualizar(Resgate r) {
         banco.conectar();
         String sql = "UPDATE resgate SET data_resgate = ?, local_resgate = ?, id_animal = ? WHERE id = ?;";
-        
         List parametros = new ArrayList();
         parametros.add(r.getDataResgate());
-        parametros.add(r.getLocalResgate());
         parametros.add(r.getAnimal().getId());
         parametros.add(r.getId());
-        
         banco.executarPreparedStatement(sql, parametros);
         banco.fechar();
     }

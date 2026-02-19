@@ -19,7 +19,7 @@ public class Banco {
     private String password = "123456";
     private java.sql.Connection conexao;
     
-        public void conectar(){
+    public void conectar(){
         try {
             conexao = DriverManager.getConnection(url, user, password);
         } catch(Exception erro) {
