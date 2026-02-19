@@ -5,16 +5,14 @@
 package com.mycompany.sistemaabrigoanimais.persistencia;
 
 import java.util.List;
-import com.mycompany.sistemaabrigoanimais.Animal;
-
+import com.mycompany.sistemaabrigoanimais.Secretaria;
 /**
  *
  * @author Giovana
  */
-
-public interface IAnimalDAO {
-    public void inserir(Animal animal);
-    public List<Animal> consultar();
-    public void atualizar(Animal animal);
-    public void remover(Animal animal);
+public interface ISecretariaDAO {
+    public void inserir(Secretaria secretaria);
+    public List<Secretaria> consultar();
+    public void atualizar(Secretaria secretaria);
+    public void remover(Secretaria secretaria);
 }

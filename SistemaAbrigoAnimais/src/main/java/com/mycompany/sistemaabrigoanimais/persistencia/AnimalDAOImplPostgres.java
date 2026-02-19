@@ -16,17 +16,16 @@ import com.mycompany.sistemaabrigoanimais.Animal;
 
 public class AnimalDAOImplPostgres implements IAnimalDAO {
     
-    private Banco banco = new Banco(); // Certifique-se de que o arquivo Banco.java do prof está no mesmo pacote
+    private Banco banco = new Banco();
 
     @Override
     public void inserir(Animal animal) {
         banco.conectar();
-        // Montando o comando SQL para inserir seu animal
         String sql = "INSERT INTO animal (nome, especie, raca, idade, status) VALUES (";
         sql = sql + "'" + animal.getNome() + "',";
         sql = sql + "'" + animal.getEspecie() + "',";
         sql = sql + "'" + animal.getRaca() + "',";
-        sql = sql + animal.getIdade() + ","; // Idade é int, não precisa de aspas
+        sql = sql + animal.getIdade() + ",";
         sql = sql + "'" + animal.getStatus() + "'";
         sql = sql + ");";
         
@@ -44,8 +43,7 @@ public class AnimalDAOImplPostgres implements IAnimalDAO {
         try {
             while(rs.next()){
                 Animal animal = new Animal();
-                // Preenchendo o objeto com os dados que vêm do banco
-                animal.setId(rs.getInt("id")); // Herdado da EntidadeBase
+                animal.setId(rs.getInt("id"));
                 animal.setNome(rs.getString("nome"));
                 animal.setEspecie(rs.getString("especie"));
                 animal.setRaca(rs.getString("raca"));
@@ -74,7 +72,7 @@ public class AnimalDAOImplPostgres implements IAnimalDAO {
         parametros.add(animal.getStatus());
         parametros.add(animal.getId());
         
-        banco.executarPreparedStatement(sql, parametros); // Usando o método seguro do professor
+        banco.executarPreparedStatement(sql, parametros);
         banco.fechar();
     }
 
