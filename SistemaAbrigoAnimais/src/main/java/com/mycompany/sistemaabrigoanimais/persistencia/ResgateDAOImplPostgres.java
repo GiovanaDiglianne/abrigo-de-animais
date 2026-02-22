@@ -57,7 +57,7 @@ public class ResgateDAOImplPostgres implements IResgateDAO {
     @Override
     public void atualizar(Resgate r) {
         banco.conectar();
-        String sql = "UPDATE resgate SET data_resgate = ?, local_resgate = ?, id_animal = ? WHERE id = ?;";
+        String sql = "UPDATE resgate SET data_resgate = ?, id_animal = ? WHERE id = ?;";
         List parametros = new ArrayList();
         parametros.add(r.getDataResgate());
         parametros.add(r.getAnimal().getId());
