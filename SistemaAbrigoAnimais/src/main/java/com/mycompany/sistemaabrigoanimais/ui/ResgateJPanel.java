@@ -4,17 +4,68 @@
  */
 package com.mycompany.sistemaabrigoanimais.ui;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import com.mycompany.sistemaabrigoanimais.Animal;
+import com.mycompany.sistemaabrigoanimais.Resgate;
+import com.mycompany.sistemaabrigoanimais.persistencia.IAnimalDAO;
+import com.mycompany.sistemaabrigoanimais.persistencia.AnimalDAOImplPostgres;
+import com.mycompany.sistemaabrigoanimais.persistencia.IResgateDAO;
+import com.mycompany.sistemaabrigoanimais.persistencia.ResgateDAOImplPostgres;
 /**
  *
  * @author Giovana
  */
 public class ResgateJPanel extends javax.swing.JPanel {
-
+    private IResgateDAO resgateDAO = new ResgateDAOImplPostgres();
+    private IAnimalDAO animalDAO = new AnimalDAOImplPostgres();
     /**
      * Creates new form ResgateJPanel
      */
     public ResgateJPanel() {
         initComponents();
+        carregarTabela(); 
+        statusJTextField.setText("Resgatado");
+    }
+    
+    private void carregarTabela() {
+        DefaultTableModel dfm = (DefaultTableModel) tabela.getModel();
+        dfm.setRowCount(0);
+        String termo = buscaJTextField.getText().toLowerCase();
+        String filtro = filtroJComboBox.getSelectedItem().toString();
+
+        List<Resgate> lista = resgateDAO.consultar();
+        for (Resgate r : lista) {
+            String nomeAnimal = (r.getAnimal() != null) ? r.getAnimal().getNome() : "Não informado";
+            String especie = (r.getAnimal() != null) ? r.getAnimal().getEspecie() : "-";
+            String status = (r.getAnimal() != null) ? r.getAnimal().getStatus() : "-";
+
+            String valorComparar = "";
+            if (filtro.equals("Data Resgate")) valorComparar = r.getDataResgate();
+            else if (filtro.equals("Nome Animal")) valorComparar = nomeAnimal;
+            else if (filtro.equals("Espécie")) valorComparar = especie;
+
+            if (termo.isEmpty() || valorComparar.toLowerCase().contains(termo)) {
+                Object[] linha = {
+                    r.getId(),
+                    r.getDataResgate(),
+                    nomeAnimal,
+                    especie,
+                    status
+                };
+                dfm.addRow(linha);
+            }
+        }
+    }
+    private void limparCampos() {
+        dataResgateJTextField.setText("");
+        idJTextField.setText("");
+        nomeJTextField.setText("");
+        especieJTextField.setText("");
+        racaJTextField.setText("");
+        idadeJTextField.setText("");
+        statusJTextField.setText("");
     }
 
     /**
@@ -26,19 +77,327 @@ public class ResgateJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dataResgateJLabel = new javax.swing.JLabel();
+        nomeJLabel = new javax.swing.JLabel();
+        especieJLabel = new javax.swing.JLabel();
+        racaJLabel = new javax.swing.JLabel();
+        idadeJLabel = new javax.swing.JLabel();
+        statusJLabel = new javax.swing.JLabel();
+        dataResgateJTextField = new javax.swing.JTextField();
+        nomeJTextField = new javax.swing.JTextField();
+        IdJLabel = new javax.swing.JLabel();
+        idJTextField = new javax.swing.JTextField();
+        especieJTextField = new javax.swing.JTextField();
+        racaJTextField = new javax.swing.JTextField();
+        idadeJTextField = new javax.swing.JTextField();
+        statusJTextField = new javax.swing.JTextField();
+        salvarJButton = new javax.swing.JButton();
+        cancelarJButton = new javax.swing.JButton();
+        ScrollTabela = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
+        voltarJButton = new javax.swing.JButton();
+        editarJButton = new javax.swing.JButton();
+        excluirJButton = new javax.swing.JButton();
+        buscaJLabel = new javax.swing.JLabel();
+        filtroJComboBox = new javax.swing.JComboBox<>();
+        buscaJTextField = new javax.swing.JTextField();
+
+        setPreferredSize(new java.awt.Dimension(800, 600));
+
+        dataResgateJLabel.setText("Data: ");
+
+        nomeJLabel.setText("Nome:");
+
+        especieJLabel.setText("Espécie:");
+
+        racaJLabel.setText("Raça:");
+
+        idadeJLabel.setText("Idade:");
+
+        statusJLabel.setText("Status:");
+
+        IdJLabel.setText("Id:");
+
+        idJTextField.setEditable(false);
+
+        salvarJButton.setText("Salvar");
+        salvarJButton.addActionListener(this::salvarJButtonActionPerformed);
+
+        cancelarJButton.setText("Cancelar");
+
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Id Resgate", "Data Resgate", "Animal ", "Espécie", "Status"
+            }
+        ));
+        ScrollTabela.setViewportView(tabela);
+
+        voltarJButton.setText("Voltar");
+        voltarJButton.addActionListener(this::voltarJButtonActionPerformed);
+
+        editarJButton.setText("Editar");
+        editarJButton.addActionListener(this::editarJButtonActionPerformed);
+
+        excluirJButton.setText("Excluir");
+        excluirJButton.addActionListener(this::excluirJButtonActionPerformed);
+
+        buscaJLabel.setText("Buscar:");
+
+        filtroJComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Data Resgate", "Nome Animal", "Espécie" }));
+
+        buscaJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                buscaJTextFieldKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(dataResgateJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dataResgateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(IdJLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(especieJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(especieJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(racaJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(racaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idadeJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idadeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(statusJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(statusJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(salvarJButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cancelarJButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(idJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nomeJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nomeJTextField)))
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buscaJLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buscaJTextField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ScrollTabela))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(voltarJButton)
+                            .addComponent(editarJButton)
+                            .addComponent(excluirJButton))
+                        .addGap(26, 26, 26))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataResgateJLabel)
+                    .addComponent(dataResgateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeJLabel)
+                    .addComponent(nomeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdJLabel)
+                    .addComponent(idJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(especieJLabel)
+                    .addComponent(racaJLabel)
+                    .addComponent(especieJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idadeJLabel)
+                    .addComponent(statusJLabel)
+                    .addComponent(racaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idadeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salvarJButton)
+                    .addComponent(cancelarJButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscaJLabel)
+                        .addComponent(buscaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filtroJComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(editarJButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(excluirJButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(voltarJButton))
+                    .addComponent(ScrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void salvarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarJButtonActionPerformed
+        try {
+            String idStr = idJTextField.getText();
+
+            if (idStr.equals("")) { // CADASTRO NOVO (A lógica que você usava no menu)
+                    // 1. Criar o Animal primeiro
+            Animal a = new Animal();
+            a.setNome(nomeJTextField.getText());
+            a.setEspecie(especieJTextField.getText());
+            a.setRaca(racaJTextField.getText());
+            a.setIdade(Integer.parseInt(idadeJTextField.getText()));
+            a.setStatus("Resgatado"); // STATUS FIXO COMO VOCÊ PEDIU
+
+            animalDAO.inserir(a);
+
+            // 2. Pegar o animal que acabou de ser inserido
+            List<Animal> lista = animalDAO.consultar();
+            Animal animalSalvo = lista.get(lista.size() - 1);
+
+            Resgate r = new Resgate();
+            r.setDataResgate(dataResgateJTextField.getText());
+            r.setAnimal(animalSalvo);
+
+            resgateDAO.inserir(r);
+            JOptionPane.showMessageDialog(this, "Resgate registrado com sucesso!");
+
+            } else { 
+                Resgate r = new Resgate();
+                r.setId(Integer.parseInt(idStr));
+                r.setDataResgate(dataResgateJTextField.getText());
+
+                List<Resgate> lista = resgateDAO.consultar();
+                Animal animalVinculado = lista.get(tabela.getSelectedRow()).getAnimal();
+
+                animalVinculado.setNome(nomeJTextField.getText());
+                animalVinculado.setEspecie(especieJTextField.getText());
+                animalVinculado.setRaca(racaJTextField.getText());
+                animalVinculado.setIdade(Integer.parseInt(idadeJTextField.getText()));
+
+                animalDAO.atualizar(animalVinculado);
+                resgateDAO.atualizar(r);
+
+                JOptionPane.showMessageDialog(this, "Registro atualizado com sucesso!");
+            }
+
+            carregarTabela();
+            limparCampos();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        }
+    }//GEN-LAST:event_salvarJButtonActionPerformed
+
+    private void voltarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarJButtonActionPerformed
+        java.awt.Window win = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (win instanceof TelaJFrame) {
+            ((TelaJFrame) win).limparPainelPrincipal();
+        }
+    }//GEN-LAST:event_voltarJButtonActionPerformed
+
+    private void editarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarJButtonActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um resgate na tabela para editar.");
+            return;
+        }
+        List<Resgate> lista = resgateDAO.consultar();
+        Resgate r = lista.get(linhaSelecionada);
+
+        idJTextField.setText(String.valueOf(r.getId()));
+        dataResgateJTextField.setText(r.getDataResgate());
+
+        nomeJTextField.setText(r.getAnimal().getNome());
+        especieJTextField.setText(r.getAnimal().getEspecie());
+        racaJTextField.setText(r.getAnimal().getRaca());
+        idadeJTextField.setText(String.valueOf(r.getAnimal().getIdade()));
+        statusJTextField.setText(r.getAnimal().getStatus()); 
+    }//GEN-LAST:event_editarJButtonActionPerformed
+
+    private void excluirJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirJButtonActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um resgate para excluir.");
+            return;
+        }
+
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir este resgate? "
+                + "(O animal permanecerá no cadastro geral)");
+
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                int idResgate = Integer.parseInt(tabela.getValueAt(linhaSelecionada, 0).toString());
+
+                Resgate r = new Resgate();
+                r.setId(idResgate);
+                resgateDAO.remover(r);
+
+                JOptionPane.showMessageDialog(this, "Resgate removido com sucesso!");
+                carregarTabela();
+                limparCampos();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao excluir: " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_excluirJButtonActionPerformed
+
+    private void buscaJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscaJTextFieldKeyReleased
+        carregarTabela();
+    }//GEN-LAST:event_buscaJTextFieldKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel IdJLabel;
+    private javax.swing.JScrollPane ScrollTabela;
+    private javax.swing.JLabel buscaJLabel;
+    private javax.swing.JTextField buscaJTextField;
+    private javax.swing.JButton cancelarJButton;
+    private javax.swing.JLabel dataResgateJLabel;
+    private javax.swing.JTextField dataResgateJTextField;
+    private javax.swing.JButton editarJButton;
+    private javax.swing.JLabel especieJLabel;
+    private javax.swing.JTextField especieJTextField;
+    private javax.swing.JButton excluirJButton;
+    private javax.swing.JComboBox<String> filtroJComboBox;
+    private javax.swing.JTextField idJTextField;
+    private javax.swing.JLabel idadeJLabel;
+    private javax.swing.JTextField idadeJTextField;
+    private javax.swing.JLabel nomeJLabel;
+    private javax.swing.JTextField nomeJTextField;
+    private javax.swing.JLabel racaJLabel;
+    private javax.swing.JTextField racaJTextField;
+    private javax.swing.JButton salvarJButton;
+    private javax.swing.JLabel statusJLabel;
+    private javax.swing.JTextField statusJTextField;
+    private javax.swing.JTable tabela;
+    private javax.swing.JButton voltarJButton;
     // End of variables declaration//GEN-END:variables
 }

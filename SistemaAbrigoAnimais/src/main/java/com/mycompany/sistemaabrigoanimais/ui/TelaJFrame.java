@@ -17,13 +17,14 @@ public class TelaJFrame extends javax.swing.JFrame {
      */
     public TelaJFrame() {
         initComponents();
+        this.setSize(900, 700);
+        this.setLocationRelativeTo(null);
     }
     
     public void limparPainelPrincipal() {
         conteudoJPanel.removeAll();
         conteudoJPanel.revalidate();
         conteudoJPanel.repaint();
-        this.pack();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,6 +39,7 @@ public class TelaJFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         cadastrosJMenu = new javax.swing.JMenu();
         animalJMenuItem = new javax.swing.JMenuItem();
+        resgateJMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,6 +51,10 @@ public class TelaJFrame extends javax.swing.JFrame {
         animalJMenuItem.setText("Animal");
         animalJMenuItem.addActionListener(this::animalJMenuItemActionPerformed);
         cadastrosJMenu.add(animalJMenuItem);
+
+        resgateJMenuItem.setText("Resgate");
+        resgateJMenuItem.addActionListener(this::resgateJMenuItemActionPerformed);
+        cadastrosJMenu.add(resgateJMenuItem);
 
         jMenuBar1.add(cadastrosJMenu);
 
@@ -78,9 +84,16 @@ public class TelaJFrame extends javax.swing.JFrame {
         conteudoJPanel.add(tela);
         conteudoJPanel.revalidate();
         conteudoJPanel.repaint();
-
-        this.pack();
     }//GEN-LAST:event_animalJMenuItemActionPerformed
+
+    private void resgateJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resgateJMenuItemActionPerformed
+        ResgateJPanel tela = new ResgateJPanel();
+    
+        conteudoJPanel.removeAll();
+        conteudoJPanel.add(tela);
+        conteudoJPanel.revalidate();
+        conteudoJPanel.repaint();
+    }//GEN-LAST:event_resgateJMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,5 +126,6 @@ public class TelaJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel conteudoJPanel;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem resgateJMenuItem;
     // End of variables declaration//GEN-END:variables
 }

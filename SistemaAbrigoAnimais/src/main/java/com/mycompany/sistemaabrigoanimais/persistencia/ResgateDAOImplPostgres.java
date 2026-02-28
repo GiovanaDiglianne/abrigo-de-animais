@@ -31,20 +31,28 @@ public class ResgateDAOImplPostgres implements IResgateDAO {
     @Override
     public List<Resgate> consultar() {
         List<Resgate> lista = new ArrayList<>();
+        IAnimalDAO animalDAO = new AnimalDAOImplPostgres(); 
+
         banco.conectar();
         String sql = "SELECT * FROM resgate;";
         ResultSet rs = banco.executarConsulta(sql);
-        
+
         try {
             while(rs.next()){
                 Resgate r = new Resgate();
                 r.setId(rs.getInt("id"));
                 r.setDataResgate(rs.getString("data_resgate"));
-               
-                Animal a = new Animal();
-                a.setId(rs.getInt("id_animal"));
-                r.setAnimal(a);
-                
+
+                int idAnimal = rs.getInt("id_animal");
+
+                List<Animal> animais = animalDAO.consultar();
+                for(Animal a : animais) {
+                    if(a.getId() == idAnimal) {
+                        r.setAnimal(a);
+                        break;
+                    }
+                }
+
                 lista.add(r);
             }
         } catch (Exception e) {
