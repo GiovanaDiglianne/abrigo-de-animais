@@ -26,21 +26,34 @@ public class AnimalJPanel extends javax.swing.JPanel {
         carregarTabela();
     }
     
-    private void carregarTabela(){
-        
+    private void carregarTabela() {
         DefaultTableModel dfm = (DefaultTableModel) tabela.getModel();
-        dfm.setRowCount(0); 
+        dfm.setRowCount(0);
+        String termoBusca = buscaJTextField.getText().toLowerCase();
+        String criterio = filtroJComboBox.getSelectedItem().toString();
 
-        List<Animal> lista = animalDAO.consultar(); 
+        List<Animal> lista = animalDAO.consultar();
+
         for (Animal animal : lista) {
-            Object[] linha = new Object[6]; 
-            linha[0] = animal.getId();
-            linha[1] = animal.getNome();
-            linha[2] = animal.getEspecie();
-            linha[3] = animal.getRaca();
-            linha[4] = animal.getIdade();
-            linha[5] = animal.getStatus();
-            dfm.addRow(linha); 
+            String valorComparar = "";
+
+            switch (criterio) {
+                case "Nome": valorComparar = animal.getNome(); break;
+                case "Espécie": valorComparar = animal.getEspecie(); break;
+                case "Raça": valorComparar = animal.getRaca(); break;
+                case "Status": valorComparar = animal.getStatus(); break;
+            }
+
+            if (termoBusca.isEmpty() || valorComparar.toLowerCase().contains(termoBusca)) {
+                Object[] linha = new Object[6];
+                linha[0] = animal.getId();
+                linha[1] = animal.getNome();
+                linha[2] = animal.getEspecie();
+                linha[3] = animal.getRaca();
+                linha[4] = animal.getIdade();
+                linha[5] = animal.getStatus();
+                dfm.addRow(linha);
+            }
         }
     }
     
@@ -80,6 +93,10 @@ public class AnimalJPanel extends javax.swing.JPanel {
         editarJButton = new javax.swing.JButton();
         idJLabel = new javax.swing.JLabel();
         idJTextField = new javax.swing.JTextField();
+        buscaJTextField = new javax.swing.JTextField();
+        buscaJLabel = new javax.swing.JLabel();
+        filtroJComboBox = new javax.swing.JComboBox<>();
+        voltarJButton1 = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -108,15 +125,23 @@ public class AnimalJPanel extends javax.swing.JPanel {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "nome", "especie", "raça", "idade", "status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         scrollTabela.setViewportView(tabela);
 
         editarJButton.setText("Editar");
@@ -126,50 +151,76 @@ public class AnimalJPanel extends javax.swing.JPanel {
 
         idJTextField.setEditable(false);
 
+        buscaJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                buscaJTextFieldKeyReleased(evt);
+            }
+        });
+
+        buscaJLabel.setText("Buscar:");
+
+        filtroJComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Espécie", "Raça", "Status" }));
+        filtroJComboBox.addActionListener(this::filtroJComboBoxActionPerformed);
+
+        voltarJButton1.setText("Voltar");
+        voltarJButton1.addActionListener(this::voltarJButton1ActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 33, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(racaJLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(racaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(idadeJLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(idadeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(statusJLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(statusJTextField))
-                        .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(excluirJButton)
+                            .addComponent(editarJButton)
+                            .addComponent(voltarJButton1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(nomeJLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(nomeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(especieJLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(especieJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(idJLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(idJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(38, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(358, 358, 358)
-                .addComponent(excluirJButton)
-                .addGap(18, 18, 18)
-                .addComponent(editarJButton)
-                .addGap(18, 18, 18)
-                .addComponent(salvarJButton)
-                .addGap(18, 18, 18)
-                .addComponent(cancelarJButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(racaJLabel)
+                            .addComponent(buscaJLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buscaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(racaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(idadeJLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(idadeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(statusJLabel)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(statusJTextField))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(46, 46, 46)
+                                            .addComponent(salvarJButton)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(cancelarJButton)
+                                            .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(nomeJTextField)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(especieJLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(especieJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(idJLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(idJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,40 +241,54 @@ public class AnimalJPanel extends javax.swing.JPanel {
                     .addComponent(idadeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(statusJLabel)
                     .addComponent(statusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(salvarJButton)
                     .addComponent(cancelarJButton)
-                    .addComponent(excluirJButton)
-                    .addComponent(editarJButton))
-                .addGap(45, 45, 45)
-                .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                    .addComponent(salvarJButton))
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscaJLabel)
+                    .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scrollTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(editarJButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(excluirJButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(voltarJButton1)
+                        .addGap(19, 19, 19))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void salvarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarJButtonActionPerformed
-        Animal animal = new Animal();
+        String idStr = idJTextField.getText();
+        
+        if (idStr.equals("")) {
+            JOptionPane.showMessageDialog(this, "Para novos cadastros, utilize a tela de Registar Resgate.");
+            return;
+        }
+
         try {
+            Animal animal = new Animal();
+            animal.setId(Integer.parseInt(idStr));
             animal.setNome(nomeJTextField.getText());
             animal.setEspecie(especieJTextField.getText());
             animal.setRaca(racaJTextField.getText());
             animal.setIdade(Integer.parseInt(idadeJTextField.getText())); 
             animal.setStatus(statusJTextField.getText());
 
-            String idStr = idJTextField.getText();
-            if (idStr.equals("")) {
-                animalDAO.inserir(animal);
-            } else {
-                animal.setId(Integer.parseInt(idStr));
-                animalDAO.atualizar(animal);
-            }
+            animalDAO.atualizar(animal);
 
-            JOptionPane.showMessageDialog(this, "Animal salvo com sucesso!");
+            JOptionPane.showMessageDialog(this, "Dados do animal atualizados com sucesso!");
             limparCampos();
             carregarTabela(); 
         } catch(Exception erro) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + erro.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + erro.getMessage());
         }
     }//GEN-LAST:event_salvarJButtonActionPerformed
 
@@ -274,13 +339,33 @@ public class AnimalJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_racaJTextFieldActionPerformed
 
+    private void buscaJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscaJTextFieldKeyReleased
+        carregarTabela();
+    }//GEN-LAST:event_buscaJTextFieldKeyReleased
+
+    private void filtroJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroJComboBoxActionPerformed
+        carregarTabela();
+    }//GEN-LAST:event_filtroJComboBoxActionPerformed
+
+    private void voltarJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarJButton1ActionPerformed
+        java.awt.Window win = javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        if (win instanceof TelaJFrame) {
+            TelaJFrame telaPrincipal = (TelaJFrame) win;
+            telaPrincipal.limparPainelPrincipal();
+        }
+    }//GEN-LAST:event_voltarJButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel buscaJLabel;
+    private javax.swing.JTextField buscaJTextField;
     private javax.swing.JButton cancelarJButton;
     private javax.swing.JButton editarJButton;
     private javax.swing.JLabel especieJLabel;
     private javax.swing.JTextField especieJTextField;
     private javax.swing.JButton excluirJButton;
+    private javax.swing.JComboBox<String> filtroJComboBox;
     private javax.swing.JLabel idJLabel;
     private javax.swing.JTextField idJTextField;
     private javax.swing.JLabel idadeJLabel;
@@ -295,5 +380,6 @@ public class AnimalJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel statusJLabel;
     private javax.swing.JTextField statusJTextField;
     private javax.swing.JTable tabela;
+    private javax.swing.JButton voltarJButton1;
     // End of variables declaration//GEN-END:variables
 }
