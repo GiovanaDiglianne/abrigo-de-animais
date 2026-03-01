@@ -61,7 +61,7 @@ public class SecretariaJPanel extends javax.swing.JPanel {
         dataNascimentoJTextField.setText("");
         salarioJTextField.setText("");
         buscarJTextField.setText("");
-        idSelecionado = -1; // Reseta para indicar novo cadastro
+        idSelecionado = -1; 
     }
     
 

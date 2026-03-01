@@ -39,7 +39,6 @@ public class AdocaoJPanel extends javax.swing.JPanel {
         String termo = buscarJTextField.getText().toLowerCase();
 
         for (Adocao ad : adocaoDAO.consultar()) {
-            // Buscamos o nome do animal pelo ID (caso o objeto venha incompleto do banco)
             String nomeAni = "Desconhecido";
             for(Animal a : animalDAO.consultar()) {
                 if(a.getId() == ad.getAnimal().getId()) { nomeAni = a.getNome(); break; }
@@ -56,13 +55,12 @@ public class AdocaoJPanel extends javax.swing.JPanel {
         dataAdocaoJTextField.setText("");
         adotanteJTextField.setText("");
         buscarJTextField.setText("");
-        animalJComboBox.setSelectedIndex(-1); // Desmarca o animal
+        animalJComboBox.setSelectedIndex(-1); 
         idSelecionado = -1;
     }
     
     private void carregarSeletores() {
         animalJComboBox.removeAllItems();
-        // Buscamos todos os animais, mas filtramos pelo status no loop
         for (Animal a : animalDAO.consultar()) {
             if ("Resgatado".equalsIgnoreCase(a.getStatus())) {
                 animalJComboBox.addItem(a.getNome());

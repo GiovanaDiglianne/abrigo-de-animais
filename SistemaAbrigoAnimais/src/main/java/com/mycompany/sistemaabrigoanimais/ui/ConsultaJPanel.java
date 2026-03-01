@@ -43,7 +43,9 @@ public class ConsultaJPanel extends javax.swing.JPanel {
     private void carregarSeletores() {
         animalJComboBox.removeAllItems();
         for (Animal a : animalDAO.consultar()) {
-            animalJComboBox.addItem(a.getNome()); // Adicionamos o nome para exibição
+            if ("Resgatado".equalsIgnoreCase(a.getStatus())) {
+                animalJComboBox.addItem(a.getNome());
+            }
         }
 
         veterinarioJComboBox.removeAllItems();
@@ -61,13 +63,11 @@ public class ConsultaJPanel extends javax.swing.JPanel {
         DefaultTableModel dfm = (DefaultTableModel) tabela.getModel();
         dfm.setRowCount(0);
 
-        // Pegamos o termo de busca e o filtro selecionado
         String termo = buscarJTextField.getText().toLowerCase();
         String filtro = filtroJComboBox.getSelectedItem().toString();
 
         List<Consulta> lista = consultaDAO.consultar();
         for (Consulta c : lista) {
-            // Buscamos os nomes para comparação e exibição
             String nomeAnimal = "Desconhecido";
             for(Animal a : animalDAO.consultar()) {
                 if(a.getId() == c.getAnimal().getId()) { nomeAnimal = a.getNome(); break; }
@@ -83,14 +83,12 @@ public class ConsultaJPanel extends javax.swing.JPanel {
                 if(s.getId() == c.getSecretaria().getId()) { nomeSec = s.getNome(); break; }
             }
 
-            // Lógica de Filtro
             String valorComparar = "";
             if (filtro.equals("Data Consulta")) valorComparar = c.getDataConsulta();
             else if (filtro.equals("Animal")) valorComparar = nomeAnimal;
             else if (filtro.equals("Veterinario")) valorComparar = nomeVet;
             else if (filtro.equals("Secretaria")) valorComparar = nomeSec;
 
-            // Só adiciona na tabela se bater com a busca ou se a busca estiver vazia
             if (termo.isEmpty() || valorComparar.toLowerCase().contains(termo)) {
                 Object[] linha = { c.getId(), c.getDataConsulta(), nomeAnimal, nomeVet, nomeSec };
                 dfm.addRow(linha);
@@ -288,7 +286,6 @@ public class ConsultaJPanel extends javax.swing.JPanel {
             Consulta c = new Consulta();
             c.setDataConsulta(dataConsultaJTextField.getText());
 
-            // Buscamos os objetos completos pelos índices selecionados
             c.setAnimal(animalDAO.consultar().get(animalJComboBox.getSelectedIndex()));
             c.setVeterinario(vetDAO.consultar().get(veterinarioJComboBox.getSelectedIndex()));
             c.setSecretaria(secDAO.consultar().get(secretariaJComboBox.getSelectedIndex()));
