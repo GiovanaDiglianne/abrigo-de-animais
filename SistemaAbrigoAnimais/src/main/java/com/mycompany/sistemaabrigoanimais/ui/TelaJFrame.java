@@ -40,7 +40,8 @@ public class TelaJFrame extends javax.swing.JFrame {
         cadastrosJMenu = new javax.swing.JMenu();
         animalJMenuItem = new javax.swing.JMenuItem();
         resgateJMenuItem = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        veterinarioJMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,10 +57,15 @@ public class TelaJFrame extends javax.swing.JFrame {
         resgateJMenuItem.addActionListener(this::resgateJMenuItemActionPerformed);
         cadastrosJMenu.add(resgateJMenuItem);
 
-        jMenuBar1.add(cadastrosJMenu);
+        veterinarioJMenuItem.setText("Veterinário");
+        veterinarioJMenuItem.addActionListener(this::veterinarioJMenuItemActionPerformed);
+        cadastrosJMenu.add(veterinarioJMenuItem);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuItem1.setText("Secretaria");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
+        cadastrosJMenu.add(jMenuItem1);
+
+        jMenuBar1.add(cadastrosJMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -95,6 +101,24 @@ public class TelaJFrame extends javax.swing.JFrame {
         conteudoJPanel.repaint();
     }//GEN-LAST:event_resgateJMenuItemActionPerformed
 
+    private void veterinarioJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veterinarioJMenuItemActionPerformed
+        VeterinarioJPanel tela = new VeterinarioJPanel();
+    
+        conteudoJPanel.removeAll();
+        conteudoJPanel.add(tela);
+        conteudoJPanel.revalidate();
+        conteudoJPanel.repaint();
+    }//GEN-LAST:event_veterinarioJMenuItemActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        SecretariaJPanel tela = new SecretariaJPanel();
+    
+        conteudoJPanel.removeAll();
+        conteudoJPanel.add(tela);
+        conteudoJPanel.revalidate();
+        conteudoJPanel.repaint();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -124,8 +148,9 @@ public class TelaJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem animalJMenuItem;
     private javax.swing.JMenu cadastrosJMenu;
     private javax.swing.JPanel conteudoJPanel;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem resgateJMenuItem;
+    private javax.swing.JMenuItem veterinarioJMenuItem;
     // End of variables declaration//GEN-END:variables
 }

@@ -96,11 +96,9 @@ public class AnimalJPanel extends javax.swing.JPanel {
         buscaJTextField = new javax.swing.JTextField();
         buscaJLabel = new javax.swing.JLabel();
         filtroJComboBox = new javax.swing.JComboBox<>();
-        voltarJButton1 = new javax.swing.JButton();
+        voltarJButton = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
-
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         nomeJLabel.setText("Nome:");
 
@@ -153,6 +151,7 @@ public class AnimalJPanel extends javax.swing.JPanel {
 
         idJTextField.setEditable(false);
 
+        buscaJTextField.addActionListener(this::buscaJTextFieldActionPerformed);
         buscaJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 buscaJTextFieldKeyReleased(evt);
@@ -164,8 +163,8 @@ public class AnimalJPanel extends javax.swing.JPanel {
         filtroJComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Espécie", "Raça", "Status" }));
         filtroJComboBox.addActionListener(this::filtroJComboBoxActionPerformed);
 
-        voltarJButton1.setText("Voltar");
-        voltarJButton1.addActionListener(this::voltarJButton1ActionPerformed);
+        voltarJButton.setText("Voltar");
+        voltarJButton.addActionListener(this::voltarJButtonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -207,20 +206,20 @@ public class AnimalJPanel extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(statusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(buscaJLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buscaJTextField)
+                                .addComponent(buscaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(editarJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(voltarJButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(voltarJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(excluirJButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,20 +244,21 @@ public class AnimalJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelarJButton)
                     .addComponent(salvarJButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buscaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buscaJLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(editarJButton)
+                        .addComponent(filtroJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscaJLabel)
+                        .addComponent(buscaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(editarJButton)
-                        .addGap(14, 14, 14)
                         .addComponent(excluirJButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(voltarJButton1))
-                    .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(258, 258, 258)
+                        .addComponent(voltarJButton))
+                    .addComponent(scrollTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -345,14 +345,18 @@ public class AnimalJPanel extends javax.swing.JPanel {
         carregarTabela();
     }//GEN-LAST:event_filtroJComboBoxActionPerformed
 
-    private void voltarJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarJButton1ActionPerformed
+    private void voltarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarJButtonActionPerformed
         java.awt.Window win = javax.swing.SwingUtilities.getWindowAncestor(this);
 
         if (win instanceof TelaJFrame) {
             TelaJFrame telaPrincipal = (TelaJFrame) win;
             telaPrincipal.limparPainelPrincipal();
         }
-    }//GEN-LAST:event_voltarJButton1ActionPerformed
+    }//GEN-LAST:event_voltarJButtonActionPerformed
+
+    private void buscaJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscaJTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -378,6 +382,6 @@ public class AnimalJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel statusJLabel;
     private javax.swing.JTextField statusJTextField;
     private javax.swing.JTable tabela;
-    private javax.swing.JButton voltarJButton1;
+    private javax.swing.JButton voltarJButton;
     // End of variables declaration//GEN-END:variables
 }

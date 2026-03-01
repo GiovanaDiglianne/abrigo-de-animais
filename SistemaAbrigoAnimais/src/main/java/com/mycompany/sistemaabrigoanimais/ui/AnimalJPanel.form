@@ -12,11 +12,6 @@
       </Layout>
     </Container>
   </NonVisualComponents>
-  <Properties>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[800, 600]"/>
-    </Property>
-  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -76,25 +71,25 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="scrollTabela" min="-2" pref="620" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="buscaJLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="buscaJTextField" max="32767" attributes="0"/>
+                              <Component id="buscaJTextField" min="-2" pref="497" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="filtroJComboBox" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="scrollTabela" min="-2" pref="620" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="editarJButton" max="32767" attributes="0"/>
-                          <Component id="voltarJButton1" max="32767" attributes="0"/>
+                          <Component id="voltarJButton" max="32767" attributes="0"/>
                           <Component id="excluirJButton" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -124,24 +119,27 @@
                   <Component id="cancelarJButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="salvarJButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="filtroJComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="buscaJTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="buscaJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="editarJButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Component id="excluirJButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="voltarJButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="editarJButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="filtroJComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="scrollTabela" min="-2" pref="341" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="buscaJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buscaJTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="excluirJButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="258" max="-2" attributes="0"/>
+                      <Component id="voltarJButton" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="scrollTabela" pref="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -289,6 +287,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="buscaJTextField">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buscaJTextFieldActionPerformed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="buscaJTextFieldKeyReleased"/>
       </Events>
     </Component>
@@ -315,12 +314,12 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="voltarJButton1">
+    <Component class="javax.swing.JButton" name="voltarJButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Voltar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="voltarJButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="voltarJButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

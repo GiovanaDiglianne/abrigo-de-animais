@@ -151,6 +151,7 @@ public class ResgateJPanel extends javax.swing.JPanel {
 
         filtroJComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Data Resgate", "Nome Animal", "Espécie" }));
 
+        buscaJTextField.addActionListener(this::buscaJTextFieldActionPerformed);
         buscaJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 buscaJTextFieldKeyReleased(evt);
@@ -266,27 +267,25 @@ public class ResgateJPanel extends javax.swing.JPanel {
         try {
             String idStr = idJTextField.getText();
 
-            if (idStr.equals("")) { // CADASTRO NOVO (A lógica que você usava no menu)
-                    // 1. Criar o Animal primeiro
-            Animal a = new Animal();
-            a.setNome(nomeJTextField.getText());
-            a.setEspecie(especieJTextField.getText());
-            a.setRaca(racaJTextField.getText());
-            a.setIdade(Integer.parseInt(idadeJTextField.getText()));
-            a.setStatus("Resgatado"); // STATUS FIXO COMO VOCÊ PEDIU
+            if (idStr.equals("")) {
+                Animal a = new Animal();
+                a.setNome(nomeJTextField.getText());
+                a.setEspecie(especieJTextField.getText());
+                a.setRaca(racaJTextField.getText());
+                a.setIdade(Integer.parseInt(idadeJTextField.getText()));
+                a.setStatus("Resgatado");
 
-            animalDAO.inserir(a);
+                animalDAO.inserir(a);
 
-            // 2. Pegar o animal que acabou de ser inserido
-            List<Animal> lista = animalDAO.consultar();
-            Animal animalSalvo = lista.get(lista.size() - 1);
+                List<Animal> lista = animalDAO.consultar();
+                Animal animalSalvo = lista.get(lista.size() - 1);
 
-            Resgate r = new Resgate();
-            r.setDataResgate(dataResgateJTextField.getText());
-            r.setAnimal(animalSalvo);
+                Resgate r = new Resgate();
+                r.setDataResgate(dataResgateJTextField.getText());
+                r.setAnimal(animalSalvo);
 
-            resgateDAO.inserir(r);
-            JOptionPane.showMessageDialog(this, "Resgate registrado com sucesso!");
+                resgateDAO.inserir(r);
+                JOptionPane.showMessageDialog(this, "Resgate registrado com sucesso!");
 
             } else { 
                 Resgate r = new Resgate();
@@ -372,6 +371,10 @@ public class ResgateJPanel extends javax.swing.JPanel {
     private void buscaJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscaJTextFieldKeyReleased
         carregarTabela();
     }//GEN-LAST:event_buscaJTextFieldKeyReleased
+
+    private void buscaJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscaJTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
