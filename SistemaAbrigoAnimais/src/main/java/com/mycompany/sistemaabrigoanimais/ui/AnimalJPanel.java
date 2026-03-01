@@ -117,6 +117,8 @@ public class AnimalJPanel extends javax.swing.JPanel {
 
         statusJLabel.setText("Status:");
 
+        statusJTextField.setEditable(false);
+
         cancelarJButton.setText("Cancelar");
         cancelarJButton.addActionListener(this::cancelarJButtonActionPerformed);
 

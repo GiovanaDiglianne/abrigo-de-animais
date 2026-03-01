@@ -17,12 +17,27 @@ public class TelaJFrame extends javax.swing.JFrame {
      */
     public TelaJFrame() {
         initComponents();
+        this.setTitle("Abrigo de Animais - Sistema de Gestão");
+        this.setResizable(false);
         this.setSize(900, 700);
         this.setLocationRelativeTo(null);
+
+        exibirDashboard(); 
+    }
+
+    public void exibirDashboard() {
+        DashboardJPanel dash = new DashboardJPanel();
+        exibirPainel(dash);
+    }
+
+    public void limparPainelPrincipal() {
+        exibirDashboard();
     }
     
-    public void limparPainelPrincipal() {
-        conteudoJPanel.removeAll();
+    public void exibirPainel(javax.swing.JPanel painel) {
+        conteudoJPanel.removeAll(); 
+        conteudoJPanel.setLayout(new java.awt.BorderLayout());
+        conteudoJPanel.add(painel);
         conteudoJPanel.revalidate();
         conteudoJPanel.repaint();
     }
@@ -37,35 +52,19 @@ public class TelaJFrame extends javax.swing.JFrame {
 
         conteudoJPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        cadastrosJMenu = new javax.swing.JMenu();
-        animalJMenuItem = new javax.swing.JMenuItem();
-        resgateJMenuItem = new javax.swing.JMenuItem();
-        veterinarioJMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        conteudoJPanel.setLayout(new javax.swing.BoxLayout(conteudoJPanel, javax.swing.BoxLayout.LINE_AXIS));
-
-        cadastrosJMenu.setText("Cadastros");
-
-        animalJMenuItem.setText("Animal");
-        animalJMenuItem.addActionListener(this::animalJMenuItemActionPerformed);
-        cadastrosJMenu.add(animalJMenuItem);
-
-        resgateJMenuItem.setText("Resgate");
-        resgateJMenuItem.addActionListener(this::resgateJMenuItemActionPerformed);
-        cadastrosJMenu.add(resgateJMenuItem);
-
-        veterinarioJMenuItem.setText("Veterinário");
-        veterinarioJMenuItem.addActionListener(this::veterinarioJMenuItemActionPerformed);
-        cadastrosJMenu.add(veterinarioJMenuItem);
-
-        jMenuItem1.setText("Secretaria");
-        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
-        cadastrosJMenu.add(jMenuItem1);
-
-        jMenuBar1.add(cadastrosJMenu);
+        javax.swing.GroupLayout conteudoJPanelLayout = new javax.swing.GroupLayout(conteudoJPanel);
+        conteudoJPanel.setLayout(conteudoJPanelLayout);
+        conteudoJPanelLayout.setHorizontalGroup(
+            conteudoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 783, Short.MAX_VALUE)
+        );
+        conteudoJPanelLayout.setVerticalGroup(
+            conteudoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 474, Short.MAX_VALUE)
+        );
 
         setJMenuBar(jMenuBar1);
 
@@ -73,51 +72,15 @@ public class TelaJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(conteudoJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+            .addComponent(conteudoJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(conteudoJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+            .addComponent(conteudoJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void animalJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animalJMenuItemActionPerformed
-        AnimalJPanel tela = new AnimalJPanel();
-
-        conteudoJPanel.removeAll();
-        conteudoJPanel.add(tela);
-        conteudoJPanel.revalidate();
-        conteudoJPanel.repaint();
-    }//GEN-LAST:event_animalJMenuItemActionPerformed
-
-    private void resgateJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resgateJMenuItemActionPerformed
-        ResgateJPanel tela = new ResgateJPanel();
-    
-        conteudoJPanel.removeAll();
-        conteudoJPanel.add(tela);
-        conteudoJPanel.revalidate();
-        conteudoJPanel.repaint();
-    }//GEN-LAST:event_resgateJMenuItemActionPerformed
-
-    private void veterinarioJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veterinarioJMenuItemActionPerformed
-        VeterinarioJPanel tela = new VeterinarioJPanel();
-    
-        conteudoJPanel.removeAll();
-        conteudoJPanel.add(tela);
-        conteudoJPanel.revalidate();
-        conteudoJPanel.repaint();
-    }//GEN-LAST:event_veterinarioJMenuItemActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        SecretariaJPanel tela = new SecretariaJPanel();
-    
-        conteudoJPanel.removeAll();
-        conteudoJPanel.add(tela);
-        conteudoJPanel.revalidate();
-        conteudoJPanel.repaint();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,12 +108,7 @@ public class TelaJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem animalJMenuItem;
-    private javax.swing.JMenu cadastrosJMenu;
     private javax.swing.JPanel conteudoJPanel;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem resgateJMenuItem;
-    private javax.swing.JMenuItem veterinarioJMenuItem;
     // End of variables declaration//GEN-END:variables
 }

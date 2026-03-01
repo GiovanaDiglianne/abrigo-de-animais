@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import com.mycompany.sistemaabrigoanimais.Consulta;
 import com.mycompany.sistemaabrigoanimais.Animal;
 import com.mycompany.sistemaabrigoanimais.Veterinario;
+import com.mycompany.sistemaabrigoanimais.Secretaria;
 
 /**
  *
@@ -21,10 +22,11 @@ public class ConsultaDAOImplPostgres implements IConsultaDAO {
     @Override
     public void inserir(Consulta c) {
         banco.conectar();
-        String sql = "INSERT INTO consulta (data_consulta, id_animal, id_veterinario) VALUES (";
+        String sql = "INSERT INTO consulta (data_consulta, id_animal, id_veterinario, id_secretaria) VALUES (";
         sql += "'" + c.getDataConsulta() + "', ";
         sql += c.getAnimal().getId() + ", ";      
-        sql += c.getVeterinario().getId();        
+        sql += c.getVeterinario().getId() + ", ";        
+        sql += c.getSecretaria().getId(); // Adicionado aqui
         sql += ");";
         banco.executarSQL(sql);
         banco.fechar();
@@ -36,26 +38,28 @@ public class ConsultaDAOImplPostgres implements IConsultaDAO {
         banco.conectar();
         String sql = "SELECT * FROM consulta;";
         ResultSet rs = banco.executarConsulta(sql);
-        
         try {
             while(rs.next()){
                 Consulta c = new Consulta();
                 c.setId(rs.getInt("id"));
                 c.setDataConsulta(rs.getString("data_consulta"));
-                
+
                 Animal a = new Animal();
                 a.setId(rs.getInt("id_animal"));
                 c.setAnimal(a);
-                
+
                 Veterinario v = new Veterinario();
                 v.setId(rs.getInt("id_veterinario"));
                 c.setVeterinario(v);
-                
+
+                // Adicionado: Carregar a secretária
+                Secretaria s = new Secretaria();
+                s.setId(rs.getInt("id_secretaria"));
+                c.setSecretaria(s);
+
                 lista.add(c);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
         banco.fechar();
         return lista;
     }

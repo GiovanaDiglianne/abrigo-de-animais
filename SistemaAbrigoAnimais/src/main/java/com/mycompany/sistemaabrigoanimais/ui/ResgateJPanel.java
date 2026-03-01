@@ -120,6 +120,8 @@ public class ResgateJPanel extends javax.swing.JPanel {
 
         idJTextField.setEditable(false);
 
+        statusJTextField.setEditable(false);
+
         salvarJButton.setText("Salvar");
         salvarJButton.addActionListener(this::salvarJButtonActionPerformed);
 

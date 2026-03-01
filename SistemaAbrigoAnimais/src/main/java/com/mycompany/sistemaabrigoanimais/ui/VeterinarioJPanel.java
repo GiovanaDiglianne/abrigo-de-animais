@@ -49,7 +49,7 @@ public class VeterinarioJPanel extends javax.swing.JPanel {
             else if (filtro.equals("Especialidade")) valorComparar = v.getEspecialidade();
 
             if (termo.isEmpty() || valorComparar.toLowerCase().contains(termo)) {
-                Object[] linha = { v.getId(), v.getNome(), v.getCpf(), v.getCrmv(), v.getEspecialidade() };
+                Object[] linha = { v.getId(), v.getNome(), v.getCpf(), v.getCrmv(), v.getEspecialidade(), v.getSalario() };
                 dfm.addRow(linha);
             }
         }
@@ -112,17 +112,17 @@ public class VeterinarioJPanel extends javax.swing.JPanel {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Nome", "CPF", "CRMV", "Especialidade"
+                "Id", "Nome", "CPF", "CRMV", "Especialidade", "Salário"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -298,6 +298,7 @@ public class VeterinarioJPanel extends javax.swing.JPanel {
         cpfJTextField.setText(v.getCpf());
         crmvJTextField.setText(v.getCrmv());
         especialidadeJTextField.setText(v.getEspecialidade());
+        salarioJTextField.setText(String.valueOf(v.getSalario()));
         salarioJTextField.setText(String.valueOf(v.getSalario()));
     }//GEN-LAST:event_editarJButtonActionPerformed
 
